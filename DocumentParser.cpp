@@ -82,23 +82,23 @@ void DocumentParser::testReadJsonFile(const string &fileName)
         index_->insertWord(token, docID);
     }
 
-    // auto persons = d["entities"]["persons"].GetArray();
-    // for (auto &p : persons)
-    // {
-    //     string name = p["name"].GetString();
-    //     // TODO: add to persons AVLTree
-    //     index_->insertPerson(name, docID);
-    // }
+    auto persons = d["entities"]["persons"].GetArray();
+    for (auto &p : persons)
+    {
+        string name = p["name"].GetString();
+        // TODO: add to persons AVLTree
+        index_->insertPerson(name, docID);
+    }
 
-    // auto orgs = d["entities"]["organizations"].GetArray();
-    // for (auto &o : orgs)
-    // {
-    //     string name = o["name"].GetString();
-    //     // TODO: add to orgs AVLTree
-    //     index_->insertOrgs(name, docID);
+    auto orgs = d["entities"]["organizations"].GetArray();
+    for (auto &o : orgs)
+    {
+        string name = o["name"].GetString();
+        // TODO: add to orgs AVLTree
+        index_->insertOrgs(name, docID);
     
-    // }
-    // index_->prettyPrintWordTree();
+    }
+    index_->prettyPrintWordTree();
 
     input.close();
 }

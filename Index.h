@@ -6,6 +6,7 @@
 #include "Word.h"
 #include "AVLTree.h"
 
+
 class Index {
 
 public:
@@ -23,6 +24,7 @@ private:
     AVLTree<Word> words;
     AVLTree<Word> persons;
     AVLTree<Word> orgs;
+    unordered_map<int, Document> documentMap;
 
 };
 
