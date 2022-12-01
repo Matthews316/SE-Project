@@ -1,6 +1,23 @@
-
-
 #include "Index.h"
+
+void Index::insertWord(string w, int d){
+    loadTree(w, d, 'w', words);
+}
+
+// Index::Index() {
+//     words = AVLTree<Word>();
+//     persons = AVLTree<Word>();
+//     orgs = AVLTree<Word>();
+// }
+
+void Index::insertPerson(string w, int d){
+    loadTree(w, d, 'p', persons);
+}
+
+void Index::insertOrgs(string w, int d){
+    loadTree(w, d, 'o', orgs);
+}
+
 
 void Index::loadTree(string w, int d, char t, AVLTree<Word> & tree) {
 
@@ -41,6 +58,18 @@ void Index::loadTree(string w, int d, char t, AVLTree<Word> & tree) {
     }
 }
 
+void Index::prettyPrintWordTree(){
+    words.prettyPrintTree();
+}
+
+void Index::prettyPrintPersonTree(){
+    persons.prettyPrintTree();
+}
+
+void Index::prettyPrintOrgsTree(){
+    orgs.prettyPrintTree();
+}
+
 void Index::generateFiles(AVLTree<Word> & tree, char t) {
     vector<Word> indexVector;
     tree.storeTree(indexVector);
@@ -66,10 +95,36 @@ void Index::generateFiles(AVLTree<Word> & tree, char t) {
     outFile << "EndofFile";
 
     outFile.close();
+
+
 }
 
+// void loadFiles() {
+//     ifstream textFile("WordFile.txt");
+//     if (textFile.fail()) {
+//         throw std::runtime_error("Text File Failed!");
+//     }
+//     string word;
+//     int doc;
+//     int occurrence;
+//     unordered_map<int, int> map;
 
+//     while (true) {
+//         textFile >> word;
+//         if (word == "EndofFile")
+//             break;
+//         while (true) {
+//             textFile >> doc;
+//             if (doc == -1) {
+//                 break;
+//             }
+//             textFile >> occurrence;
+//             map.insert(make_pair(doc, occurrence));
+//         }
+//         Word wObject(word, map);
+//         wTree.insert(wObject);
+//         map.clear();
+//     }
 
-
-
-
+//     textFile.close();
+// }

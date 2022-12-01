@@ -1,7 +1,3 @@
-//
-// Created by cgm81 on 11/9/2022.
-//
-
 #include "Word.h"
 
 Word::Word() = default;
@@ -16,7 +12,9 @@ bool Word::operator == (const Word &rhs) const {
 }
 
 bool Word::operator < (const Word &rhs) const {
+
     return wordElement < rhs.wordElement;
+    
 }
 
 bool Word::operator > (const Word &rhs) const {
@@ -42,12 +40,3 @@ void Word::insertDoc(int d) {
 string Word::getWord() {
     return wordElement;
 }
-
-
-
-
-
-
-
-
-

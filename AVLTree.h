@@ -1,9 +1,5 @@
-//
-// Created by cgm81 on 11/2/2022.
-//
-
-#ifndef FINALPROJEXAMPLES_AVLTREE_H
-#define FINALPROJEXAMPLES_AVLTREE_H
+#ifndef AVLTREE_H
+#define AVLTREE_H
 
 #include <stdexcept>
 #include <algorithm>
@@ -119,6 +115,7 @@ void insert(const Comparable &x) {
     }
 
     stack<AVLNode *> alpha;
+
     AVLNode *current = root;
     AVLNode *previous = nullptr;
     while (current != nullptr) {
@@ -148,9 +145,10 @@ void insert(const Comparable &x) {
         alpha.top()->height = max(height(alpha.top()->left), height(alpha.top()->right)) + 1;
         alpha.pop();
     }
+        balance(root);
 }
 
-void storeTree(vector<Comparable> &v) {  //for loading persistent vector
+void storeTree(vector<Comparable> &v) {
     if(root == nullptr) {
         throw std::runtime_error("Tree is empty!");
     }
@@ -491,4 +489,4 @@ void doubleWithRightChild(AVLNode *&k) {
 
 };
 
-#endif //FINALPROJEXAMPLES_AVLTREE_H
+#endif //AVLTREE_H

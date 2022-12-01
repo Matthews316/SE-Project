@@ -1,9 +1,5 @@
-//
-// Created by cgm81 on 11/9/2022.
-//
-
-#ifndef FINALPROJEXAMPLES_WORD_H
-#define FINALPROJEXAMPLES_WORD_H
+#ifndef WORD_H
+#define WORD_H
 
 #include <unordered_map>
 #include <iterator>
