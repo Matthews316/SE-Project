@@ -27,6 +27,9 @@ void GUI::createIndex()
 void GUI::writePersistance()
 {
     cout<< "you have selected Write to persistance \n";
+    index_->generateFilesWords();
+    index_->generateFilesPersons();
+    index_->generateFilesOrgs();
 }
 
 void GUI::readPersistance()

@@ -98,7 +98,7 @@ void DocumentParser::testReadJsonFile(const string &fileName)
         index_->insertOrgs(name, docID);
     
     }
-    index_->prettyPrintWordTree();
+    // index_->prettyPrintWordTree();
 
     input.close();
 }

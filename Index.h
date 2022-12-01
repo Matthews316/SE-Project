@@ -19,12 +19,16 @@ public:
     void prettyPrintWordTree();
     void prettyPrintPersonTree();
     void prettyPrintOrgsTree();
+    
+    void generateFilesWords();
+    void generateFilesPersons();
+    void generateFilesOrgs();
 
 private:
     AVLTree<Word> words;
     AVLTree<Word> persons;
     AVLTree<Word> orgs;
-    unordered_map<int, Document> documentMap;
+    //unordered_map<int, Document> documentMap;
 
 };
 

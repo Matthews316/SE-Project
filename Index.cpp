@@ -70,6 +70,18 @@ void Index::prettyPrintOrgsTree(){
     orgs.prettyPrintTree();
 }
 
+void Index::generateFilesWords(){
+    generateFiles(words, 'w');
+}
+
+void Index::generateFilesPersons(){
+    generateFiles(persons, 'p');
+}
+
+void Index::generateFilesOrgs(){
+    generateFiles(orgs, 'o');
+}
+
 void Index::generateFiles(AVLTree<Word> & tree, char t) {
     vector<Word> indexVector;
     tree.storeTree(indexVector);
