@@ -33,7 +33,8 @@ public:
 
     void displaymenu();
     void createIndex();
-    void writeAndReadPersistance();
+    void writePersistance();
+    void readPersistance();
     void enterQuery();
     void OutputStats();
     void run();

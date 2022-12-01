@@ -9,9 +9,10 @@ void GUI::displaymenu(){
     cout<<"                       Shmoogle                       \n";                  
     cout<<"===================================================== \n";
     cout<<" 1.Create an index from a directory\n";
-    cout<<" 2.Write and Read the index to persistance\n";
-    cout<<" 3.Enter a query\n";
-    cout<<" 4.Output Stats \n";
+    cout<<" 2.Write the index to persistance\n";
+    cout<<" 3.Read the index to persistance\n";
+    cout<<" 4.Enter a query\n";
+    cout<<" 5.Output Stats \n";
 }
 
 void GUI::createIndex()
@@ -23,9 +24,14 @@ void GUI::createIndex()
     parser.testFileSystem(documentsPath_);
 }
 
-void GUI::writeAndReadPersistance()
+void GUI::writePersistance()
 {
-    cout<< "you have selected Write and read to persistance \n";
+    cout<< "you have selected Write to persistance \n";
+}
+
+void GUI::readPersistance()
+{
+    cout<< "you have selected Read to persistance \n";
 }
 
 void GUI::enterQuery()
@@ -35,7 +41,7 @@ cout<< "you have selected Enter a query\n";
 
 void GUI::OutputStats()
 {
-cout<< "View all statistics\n";
+cout<< "you have selected View all statistics\n";
 }
 
 void GUI::run(){
@@ -46,13 +52,14 @@ void GUI::run(){
     string select;
     do { 
         displaymenu();
-        cout<<"Enter your choice(1-4):";
+        cout<<"Enter your choice(1-5):";
         cin>>choice;
         switch (choice) {
             case 1: createIndex(); break;
-            case 2: writeAndReadPersistance();break;
-            case 3: enterQuery(); break;
-            case 4: OutputStats(); break;
+            case 2: writePersistance();break;
+            case 3: readPersistance();break;
+            case 4: enterQuery(); break;
+            case 5: OutputStats(); break;
             default: cout << "invalid"; break;
         }
         cout << "Press y or Y to continue:";
@@ -77,8 +84,6 @@ void GUI::run(){
 // If you’d like to show more, please paginate.
 //  The user should be allowed to choose one of the articles from the result set above and have the
 // complete text of the article printed.
-//  Helpful Hint: make sure that the query terms should have stop words
-// removed and stemmed before querying the index.
 //  Output basic statistics of the search engine including:
 //  Timing for indexing and for queries (use std::chrono).
 //  Total number of individual articles in the current index.
