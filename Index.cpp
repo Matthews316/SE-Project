@@ -108,7 +108,7 @@ void Index::generateFiles(AVLTree<Word> & tree, char t) {
     if (!outFile)
         cout << "File open error!" << endl;
     for (size_t i = 0; i < indexVector.size(); ++i) {
-        outFile << indexVector[i] << 0 << endl;
+        outFile << indexVector[i] << -1 << endl;
     }
     outFile << "EndofFile";
 
@@ -123,31 +123,29 @@ void Index::loadFiles(AVLTree<Word> & tree) {
         throw std::runtime_error("Text File Failed!");
     }
     string word;
-    string docStr;
-    string occurrenceStr;
+    //string docStr;
+    //string occurrenceStr;
     int doc;
     int occurrence;
     unordered_map<int, int> map;
 
     while (true) {
-        // textFile >> word;
-        getline(textFile, word);
-        cout << word << endl;
+        textFile >> word;
+        //getline(textFile, word);
+        //cout << word << endl;
         if (word == "EndofFile")
             break;
         while (true) {
-            // textFile >> doc;
-            getline(textFile, docStr, ' ');
-
-            doc = stoi(docStr);            
-            if (doc == 0) {
+            textFile >> doc;
+            //getline(textFile, docStr, ' ');
+            //doc = stoi(docStr);
+            if (doc == -1) {
                 break;
             }
-            // textFile >> occurrence;
-            getline(textFile, occurrenceStr);
-            occurrence = stoi(occurrenceStr);
-
-            cout << " " << occurrence << endl;
+            textFile >> occurrence;
+            //getline(textFile, occurrenceStr);
+            //occurrence = stoi(occurrenceStr);
+            //cout << " " << occurrence << endl;
             map.insert(make_pair(doc, occurrence));
         }
         Word wObject(word, map);
