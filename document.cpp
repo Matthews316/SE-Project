@@ -1,6 +1,14 @@
 #include "document.h"
 
 
+Document::Document(string title, string publication,
+                   string datePublished, string text) {
+    title_ = title;
+    publication_ = publication;
+    datePublished_ = datePublished;
+    text_ = text;
+}
+
 void Document::setTitle(string title) {
     title_ = title;
 }
@@ -24,3 +32,12 @@ void Document::setDate(string datePublish) {
 string Document::setDate() {
     return datePublished_;
 }
+
+void Document::setText(string text){
+    text_ = text;
+}
+
+string Document::getText(){
+    return text_;
+}
+

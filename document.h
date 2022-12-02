@@ -11,8 +11,12 @@ private:
     string title_;
     string publication_;
     string datePublished_;
+    string text_;
 
 public:
+    Document() = default;
+    Document(string, string, string, string);
+    
     void setTitle(string);
     string getTitle();
 
@@ -21,6 +25,9 @@ public:
 
     void setDate(string);
     string setDate();
+
+    void setText(string);
+    string getText();
 };
 
 #endif

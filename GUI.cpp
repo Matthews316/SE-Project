@@ -30,14 +30,16 @@ void GUI::writePersistance()
     index_->generateFilesWords();
     index_->generateFilesPersons();
     index_->generateFilesOrgs();
+    index_->generateDocs("Doc.tsv");
 }
 
 void GUI::readPersistance()
 {
     cout<< "you have selected Read to persistance \n";
     index_->loadFilesWords();
-    // index_->loadFilesPersons();
-    // index_->loadFilesOrgs();
+    index_->loadFilesPersons();
+    index_->loadFilesOrgs();
+    index_->loadDocs("Docs.tsv");
 }
 
 void GUI::enterQuery()

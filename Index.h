@@ -6,6 +6,7 @@
 #include "Word.h"
 #include "AVLTree.h"
 #include "document.h"
+#include <unordered_set>
 
 
 class Index {
@@ -38,15 +39,20 @@ public:
     void addDocument(int, Document&);
     int numDocuments();
 
+    void generateDocs(string);
+    void loadDocs(string);
+
 
     AVLTree<Word>& getWords();
     AVLTree<Word>& getPersons();
     AVLTree<Word>& getOrgs();
+    AVLTree<Word>& getDate();
 
 private:
     AVLTree<Word> words;
     AVLTree<Word> persons;
     AVLTree<Word> orgs;
+    AVLTree<Word> Date;
     unordered_map<int, Document> documentMap;
 
     // QueryEngine

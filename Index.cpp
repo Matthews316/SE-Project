@@ -17,6 +17,7 @@ void Index::loadTree(string w, int d, char t, AVLTree<Word> & tree) {
 
     if (t == 'w') {
         unordered_map<int, int> wMap;
+        // Need to make space to include other features
         Word tWord(w, wMap);
         if (!tree.contains(tWord)) {
             wMap.insert(make_pair(d, 1));
@@ -107,11 +108,15 @@ void Index::generateFiles(AVLTree<Word> & tree, char t) {
     ofstream outFile(fileName);
     if (!outFile)
         cout << "File open error!" << endl;
-    for (size_t i = 0; i < indexVector.size(); ++i) {
-        outFile << indexVector[i] << 0 << endl;
-    }
-    outFile << "EndofFile";
 
+    for (size_t i = 0; i < indexVector.size(); ++i) {
+        if (i == indexVector.size() - 1) {
+            outFile << indexVector[i];
+        } else {
+            outFile << indexVector[i] << endl;
+        }
+        
+    }
     outFile.close();
 
 
@@ -128,32 +133,30 @@ void Index::loadFiles(AVLTree<Word> & tree) {
     int doc;
     int occurrence;
     unordered_map<int, int> map;
+    unordered_set<string> seen;
 
-    while (true) {
-        // textFile >> word;
-        getline(textFile, word);
-        cout << word << endl;
-        if (word == "EndofFile")
-            break;
-        while (true) {
-            // textFile >> doc;
-            getline(textFile, docStr, ' ');
 
-            doc = stoi(docStr);            
-            if (doc == 0) {
-                break;
-            }
-            // textFile >> occurrence;
-            getline(textFile, occurrenceStr);
-            occurrence = stoi(occurrenceStr);
+    while (textFile.good()) {
+        getline(textFile, word, '\t');
+        getline(textFile, docStr, '\t');
+        getline(textFile, occurrenceStr);
 
-            cout << " " << occurrence << endl;
-            map.insert(make_pair(doc, occurrence));
+        seen.insert(word);
+        
+        if (seen.find(word) == seen.end()) {
+            Word wObject(word, map);
+            tree.insert(wObject);
+            map.clear();
         }
-        Word wObject(word, map);
-        tree.insert(wObject);
-        map.clear();
+
+        doc = stoi(docStr);
+        occurrence = stoi(occurrenceStr);
+        map.insert(make_pair(doc, occurrence));
     }
+
+    Word wObject(word, map);
+    tree.insert(wObject);
+    map.clear();
 
     textFile.close();
 }
@@ -170,6 +173,10 @@ AVLTree<Word>& Index::getOrgs() {
     return orgs;
 }
 
+AVLTree<Word>& Index::getDate() {
+    return orgs;
+}
+
 Document Index::getDocument(int id){
     return documentMap[id];
 }
@@ -180,4 +187,46 @@ void Index::addDocument(int id, Document& doc){
 
 int Index::numDocuments(){
     return documentMap.size();
+}
+
+void Index::generateDocs(string filename){
+    ofstream outFile(filename);
+    if (!outFile)
+        cout << "File open error!" << endl;
+
+    for (auto p : documentMap) {
+        cout << p.first << "\t";
+        cout << p.second.getTitle() << "\t";
+        cout << p.second.getPublication() << "\t";
+        cout << p.second.getDate() << "\t";
+        cout << p.second.getText() << endl;
+    }
+    
+}
+
+void Index::loadDocs(string filename){
+
+    ifstream textFile(filename);
+    if (textFile.fail()) {
+        throw std::runtime_error("Text File Failed!");
+    }
+
+    string idStr;
+    string title;
+    string publication;
+    string date;
+    string text;
+
+    while (textFile.good()) {
+        getline(textFile, idStr, '\t');
+        getline(textFile, title, '\t');
+        getline(textFile, publication, '\t');
+        getline(textFile, date, '\t');
+        getline(textFile, text);
+
+        int id = stoi(idStr);
+        Document doc(title, publication, date, text);
+        documentMap[id] = doc;
+    }
+    
 }

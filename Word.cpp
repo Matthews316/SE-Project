@@ -22,9 +22,16 @@ bool Word::operator > (const Word &rhs) const {
 }
 
 ostream &operator << (ostream &out, const Word &w) {
-    out << w.wordElement << endl;
-    for (auto &p : w.docs)
-    out << p.first << " " << p.second << endl;
+    int count = 0;
+    int size = w.docs.size();
+    for (auto it = w.docs.begin(); it != w.docs.end(); ++it) {
+        if (count == size-1) {
+            out << w.wordElement << "\t" << it->first << "\t" << it->second;
+        } else {
+            out << w.wordElement << "\t" << it->first << "\t" << it->second << endl;
+        }
+        count++;
+    }
     return out;
 }
 
