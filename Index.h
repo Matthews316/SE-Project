@@ -5,6 +5,7 @@
 
 #include "Word.h"
 #include "AVLTree.h"
+#include "document.h"
 
 
 class Index {
@@ -33,6 +34,11 @@ public:
     void loadFiles(AVLTree<Word> &);
 
 
+    Document getDocument(int);
+    void addDocument(int, Document&);
+    int numDocuments();
+
+
     AVLTree<Word>& getWords();
     AVLTree<Word>& getPersons();
     AVLTree<Word>& getOrgs();
@@ -41,7 +47,13 @@ private:
     AVLTree<Word> words;
     AVLTree<Word> persons;
     AVLTree<Word> orgs;
-    //unordered_map<int, Document> documentMap;
+    unordered_map<int, Document> documentMap;
+
+    // QueryEngine
+    // 1. Word class needs to return unordered_map
+    // 2. loop through unordered_map and retrive Document obj
+    //    from documentMap in the index class
+
 
 };
 

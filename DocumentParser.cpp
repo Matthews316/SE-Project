@@ -74,7 +74,12 @@ void DocumentParser::testReadJsonFile(const string &fileName)
     d.ParseStream(isw);
 
 
-    auto text = d["text"].GetString();
+    string text = d["text"].GetString();
+    string title = d["title"].GetString();
+    string datePublished = d["published"].GetString();
+    string author = d["author"].GetString();
+
+
     vector<string> tokens = tokenize(text);
 
     for (auto token : tokens) {

@@ -169,3 +169,15 @@ AVLTree<Word>& Index::getPersons() {
 AVLTree<Word>& Index::getOrgs() {
     return orgs;
 }
+
+Document Index::getDocument(int id){
+    return documentMap[id];
+}
+
+void Index::addDocument(int id, Document& doc){
+    documentMap[id] = doc;
+}
+
+int Index::numDocuments(){
+    return documentMap.size();
+}
