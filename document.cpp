@@ -29,7 +29,7 @@ void Document::setDate(string datePublish) {
     datePublished_ = datePublish;
 }
 
-string Document::setDate() {
+string Document::getDate() {
     return datePublished_;
 }
 

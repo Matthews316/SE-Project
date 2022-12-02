@@ -94,13 +94,13 @@ void Index::generateFiles(AVLTree<Word> & tree, char t) {
     tree.storeTree(indexVector);
     string fileName;
     if (t == 'w') {
-        fileName = "WordFile.txt";
+        fileName = "WordFile.tsv";
     }
     else if (t == 'p') {
-        fileName = "PeopleFile.txt";
+        fileName = "PeopleFile.tsv";
     }
     else if (t == 'o') {
-        fileName = "OrgFile.txt";
+        fileName = "OrgFile.tsv";
     }
     else {
         throw std::runtime_error("Incorrect file type chosen");
@@ -173,9 +173,6 @@ AVLTree<Word>& Index::getOrgs() {
     return orgs;
 }
 
-AVLTree<Word>& Index::getDate() {
-    return orgs;
-}
 
 Document Index::getDocument(int id){
     return documentMap[id];

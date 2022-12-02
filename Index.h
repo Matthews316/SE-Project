@@ -46,13 +46,11 @@ public:
     AVLTree<Word>& getWords();
     AVLTree<Word>& getPersons();
     AVLTree<Word>& getOrgs();
-    AVLTree<Word>& getDate();
 
 private:
     AVLTree<Word> words;
     AVLTree<Word> persons;
     AVLTree<Word> orgs;
-    AVLTree<Word> Date;
     unordered_map<int, Document> documentMap;
 
     // QueryEngine
