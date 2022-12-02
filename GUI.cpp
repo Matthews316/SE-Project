@@ -35,6 +35,9 @@ void GUI::writePersistance()
 void GUI::readPersistance()
 {
     cout<< "you have selected Read to persistance \n";
+    index_->loadFilesWords();
+    // index_->loadFilesPersons();
+    // index_->loadFilesOrgs();
 }
 
 void GUI::enterQuery()

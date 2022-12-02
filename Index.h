@@ -16,6 +16,7 @@ public:
     void insertOrgs(string w, int d);
     void loadTree(string w, int d, char t, AVLTree<Word>&);
     void generateFiles(AVLTree<Word> &, char);
+    
     void prettyPrintWordTree();
     void prettyPrintPersonTree();
     void prettyPrintOrgsTree();
@@ -23,6 +24,18 @@ public:
     void generateFilesWords();
     void generateFilesPersons();
     void generateFilesOrgs();
+
+    void loadFilesOrgs();
+    void loadFilesWords();
+    void loadFilesPersons();
+
+
+    void loadFiles(AVLTree<Word> &);
+
+
+    AVLTree<Word>& getWords();
+    AVLTree<Word>& getPersons();
+    AVLTree<Word>& getOrgs();
 
 private:
     AVLTree<Word> words;
