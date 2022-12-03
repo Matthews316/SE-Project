@@ -33,7 +33,6 @@ void DocumentParser::StopWords(const string& testRight){
     }
 
     string word;
-
     while (!stopInfile.eof()) {   
         getline(stopInfile, word);
         string newWord;
@@ -74,11 +73,14 @@ void DocumentParser::testReadJsonFile(const string &fileName)
     d.ParseStream(isw);
 
 
-    string text = d["text"].GetString();
     string title = d["title"].GetString();
     string datePublished = d["published"].GetString();
     string author = d["author"].GetString();
+    string text = d["text"].GetString();
 
+
+    Document doc(title, datePublished, author, text);
+    index_->addDocument(docID, doc);
 
     vector<string> tokens = tokenize(text);
 

@@ -6,6 +6,7 @@
 #include "Word.h"
 #include "AVLTree.h"
 #include "document.h"
+#include <unordered_set>
 
 
 class Index {
@@ -37,6 +38,9 @@ public:
     Document getDocument(int);
     void addDocument(int, Document&);
     int numDocuments();
+
+    void generateDocs(string);
+    void loadDocs(string);
 
 
     AVLTree<Word>& getWords();
