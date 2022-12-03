@@ -32,14 +32,11 @@ void Query::runQuery(string search) {
     Query q;
     Index i;
     istringstream ss(search);
-    string word, first, last;
+    string word;
     while (ss >> word) {
         if (word == "PERSON") {
-            ss >> first;
-            ss >> last;
-            first.append(" ");
-            first.append(last);
-            personVec.push_back(first);
+            ss >> word;
+            personVec.push_back(word);
         }
         else if (word == "ORG") {
             ss >> word;
