@@ -15,6 +15,7 @@ class Word {
 public:
 
     Word();
+    Word(string);
     Word(string, unordered_map<int, int> &);
     bool operator == (const Word &) const;
     bool operator < (const Word &) const;
@@ -22,6 +23,7 @@ public:
     friend ostream & operator << (ostream &out, const Word &);
     void insertDoc(int);
     string getWord();
+    unordered_map<int,int> & getDocs();
 
 private:
     string wordElement;
