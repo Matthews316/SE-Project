@@ -30,7 +30,7 @@ void GUI::writePersistance()
     index_->generateFilesWords();
     index_->generateFilesPersons();
     index_->generateFilesOrgs();
-    index_->generateDocs("Doc.tsv");
+    // index_->generateDocs("Doc.tsv");
 }
 
 void GUI::readPersistance()
@@ -39,7 +39,7 @@ void GUI::readPersistance()
     index_->loadFilesWords();
     index_->loadFilesPersons();
     index_->loadFilesOrgs();
-    index_->loadDocs("Docs.tsv");
+    // index_->loadDocs("Doc.tsv");
 }
 
 void GUI::enterQuery()
