@@ -8,14 +8,23 @@
 #include "AVLTree.h"
 #include "Word.h"
 #include "Index.h"
+#include <bits/stdc++.h>
 
 using namespace std;
 
 class Query {
 
 public:
-    void performSearch(string, AVLTree<Word> &);
-    void rankResults(vector<pair<int, int>> &);
+    Query();
+    void runQuery(string);
+    void performSearch(const string &, AVLTree<Word> &);
+    void performAndSearch(const vector<string> &, AVLTree<Word> &);
+    void performTwoMixedSearch(const vector<string> &, const vector<string> &, AVLTree<Word> &, AVLTree<Word> &);
+    void performThreeMixedSearch(const vector<string> &, const vector<string> &, const vector<string> &, AVLTree<Word> &, AVLTree<Word> &, AVLTree<Word> &);
+    void displayResults(vector<pair<int, int>> &, const string &);
+    void displayANDResults(vector<pair<int, int>> &, const vector<string> &);
+    void displayTwoMixedResults(vector<pair<int, int>> &, const vector<string> &, const vector<string> &);
+    void displayThreeMixedResults(vector<pair<int, int>> &, const vector<string> &, const vector<string> &, const vector<string> &);
 
 private:
 
