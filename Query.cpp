@@ -9,7 +9,7 @@ bool sortVal (const pair<int, int> &lhs, const pair<int, int> &rhs) {
     return (lhs.second > rhs.second);
 }
 
-//function for finding the intersection of documents between search terms
+//function for finding the intersection of documents between search terms; code sourced from stack overflow
 void findIntersection (unordered_map<int, int> & fMap, unordered_map<int, int> & sMap, unordered_map<int, int> & jMap) {
     jMap.clear();
     const auto &[min, max]  = minmax(fMap, sMap, [](auto &a, auto &b) { return a.size() < b.size(); });
@@ -215,7 +215,7 @@ void Query::performThreeMixedSearch(const vector<string> & fVec, const vector<st
 
 void Query::displayResults(vector<pair<int, int>> & rVec, const string & t) {
     sort(rVec.begin(), rVec.end(), sortVal);
-    cout << "Found " << rVec.size() << " documents containing search term " << "'" << t << "'" << endl;
+    cout << "Found " << rVec.size() << " document(s) containing search term " << "'" << t << "'" << endl;
     if (rVec.empty()) {
         return;
     }
