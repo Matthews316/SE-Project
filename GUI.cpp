@@ -13,7 +13,7 @@ void GUI::displaymenu(){
     cout<<" 2.Write the index to persistence\n";
     cout<<" 3.Read the index to persistence\n";
     cout<<" 4.Enter a query\n";
-    cout<<" 5.Output Stats \n";
+    cout<<" 5.Output Statisitcs \n";
     cout<<" 6.Exit \n";
 }
 
@@ -40,15 +40,21 @@ void GUI::readPersistence()
 {
     cout<< "you have selected Read to persistence \n";
     index_->loadFilesWords();
+    cout << "Done words" << endl;
     index_->loadFilesPersons();
+    cout << "Done persons" << endl;
     index_->loadFilesOrgs();
-    index_->loadDocs("Docs.tsv");
+    cout << "Done orgs" << endl;
+    //index_->loadDocs("Docs.tsv");
+    //cout << "Done docs" << endl;
 }
 
 void GUI::enterQuery()
 {
 cout<< "you have selected Enter a query\n";
 Query q;
+cin.ignore();
+q.runQuery(index_);
 }
 
 void GUI::OutputStats()

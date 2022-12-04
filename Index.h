@@ -32,7 +32,7 @@ public:
     void loadFilesPersons();
 
 
-    void loadFiles(AVLTree<Word> &);
+    void loadFiles(AVLTree<Word> &, string, char);
 
 
     Document getDocument(int);

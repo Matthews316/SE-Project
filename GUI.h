@@ -15,6 +15,8 @@ private:
     std::string makePersistencePath_;
     std::string readPersistencePath_;
     Index* index_;
+    
+
 
 public:
     GUI() {

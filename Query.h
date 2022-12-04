@@ -16,7 +16,7 @@ class Query {
 
 public:
     Query();
-    void runQuery();
+    void runQuery(Index *);
     void performSearch(const string &, AVLTree<Word> &);
     void performAndSearch(const vector<string> &, AVLTree<Word> &);
     void performTwoMixedSearch(const vector<string> &, const vector<string> &, AVLTree<Word> &, AVLTree<Word> &);
