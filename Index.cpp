@@ -198,7 +198,7 @@ void Index::generateDocs(string filename){
         cout << p.first << "\t";
         cout << p.second.getTitle() << "\t";
         cout << p.second.getPublication() << "\t";
-        cout << p.second.getDate() << "\t";
+        //cout << p.second.getDate() << "\t";
         cout << p.second.getText() << endl;
     }
     

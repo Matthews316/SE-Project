@@ -12,7 +12,7 @@ add_compile_options(-Wall -Wextra -pedantic)
 
 #add_executable(rapidJSONExample rapidJSONExample.cpp AVLTree.h test.cpp)
 
-add_executable(search_engine main.cpp Document.cpp DocumentParser.cpp Index.cpp Word.cpp GUI.cpp)
+add_executable(search_engine main.cpp DocumentParser.cpp Index.cpp Word.cpp GUI.cpp Query.cpp document.cpp)
 
 # this makes sure we also link rapidjson
 #target_include_directories(rapidJSONExample PRIVATE rapidjson/)
