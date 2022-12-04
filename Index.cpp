@@ -13,6 +13,7 @@ void Index::insertOrgs(string w, int d){
 }
 
 
+// New param for occ
 void Index::loadTree(string w, int d, char t, AVLTree<Word> & tree) {
 
     if (t == 'w') {
@@ -216,4 +217,10 @@ void Index::loadDocs(string filename){
         Document doc(title, publication, date, text);
         documentMap[id] = doc;
     }
+}
+
+void Index:: clearAllTrees(){
+ words.clear();
+ persons.clear();
+ orgs.clear();
 }

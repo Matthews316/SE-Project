@@ -42,6 +42,8 @@ public:
     void generateDocs(string);
     void loadDocs(string);
 
+    void clearAllTrees();
+
 
     AVLTree<Word>& getWords();
     AVLTree<Word>& getPersons();

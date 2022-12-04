@@ -39,6 +39,7 @@ ostream &operator << (ostream &out, const Word &w) {
     return out;
 }
 
+// New param for occ
 void Word::insertDoc(int d) {
     auto ptr = docs.find(d);
     if (ptr != docs.end()) {

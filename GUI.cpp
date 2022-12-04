@@ -5,6 +5,7 @@ using namespace std;
 #include "Query.h"
 
 
+
 void GUI::displaymenu(){ 
     cout<<"===================================================== \n";
     cout<<"                       Shmoogle                       \n";                  
@@ -20,6 +21,7 @@ void GUI::displaymenu(){
 
 void GUI::createIndex()
 {
+    index_->clearAllTrees();
     cout<< "you have selected Create an index from a directory : \n";
 
     DocumentParser parser(index_);
@@ -38,6 +40,7 @@ void GUI::writePersistence()
 
 void GUI::readPersistence()
 {
+    index_->clearAllTrees();
     cout<< "you have selected Read to persistence \n";
     index_->loadFilesWords();
     cout << "Done words" << endl;
