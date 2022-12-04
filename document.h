@@ -24,7 +24,7 @@ public:
     string getPublication();
 
     void setDate(string);
-    string setDate();
+    string getDate();
 
     void setText(string);
     string getText();

@@ -2,10 +2,6 @@
 
 Word::Word() = default;
 
-Word::Word(string w) {
-    wordElement = w;
-}
-
 Word::Word(string w, unordered_map<int, int> &m) {
     wordElement = w;
     docs = m;
@@ -50,8 +46,4 @@ void Word::insertDoc(int d) {
 
 string Word::getWord() {
     return wordElement;
-}
-
-unordered_map<int, int> &Word::getDocs() {
-    return docs;
 }
