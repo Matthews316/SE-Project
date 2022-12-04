@@ -14,7 +14,9 @@ void GUI::displaymenu(){
     cout<<" 3.Read the index to persistence\n";
     cout<<" 4.Enter a query\n";
     cout<<" 5.Output Stats \n";
+    cout<<" 6.Exit \n";
 }
+
 
 void GUI::createIndex()
 {
@@ -31,7 +33,7 @@ void GUI::writePersistence()
     index_->generateFilesWords();
     index_->generateFilesPersons();
     index_->generateFilesOrgs();
-    // index_->generateDocs("Doc.tsv");
+    index_->generateDocs("Doc.tsv");
 }
 
 void GUI::readPersistence()
@@ -40,14 +42,13 @@ void GUI::readPersistence()
     index_->loadFilesWords();
     index_->loadFilesPersons();
     index_->loadFilesOrgs();
-    // index_->loadDocs("Doc.tsv");
+    index_->loadDocs("Docs.tsv");
 }
 
 void GUI::enterQuery()
 {
 cout<< "you have selected Enter a query\n";
 Query q;
-q.runQuery();
 }
 
 void GUI::OutputStats()
@@ -63,7 +64,7 @@ void GUI::run(){
     string select;
     do { 
         displaymenu();
-        cout<<"Enter your choice(1-5):";
+        cout<<"Enter your choice(1-6):";
         cin>>choice;
         switch (choice) {
             case 1: createIndex(); break;
@@ -71,11 +72,14 @@ void GUI::run(){
             case 3: readPersistence();break;
             case 4: enterQuery(); break;
             case 5: OutputStats(); break;
-            default: cout << "invalid"; break;
+            case 6: break;
+            default: cout << "invalid" << endl; break;
         }
-        cout << "Press y or Y to continue:";
+        cout << "Press y or Y to continue. Press n or N to exit:";
         cin >> select;
     } while (select == "y" || select == "Y");
+
+    cout << "\nThank you for shmooglin!\n" << endl;
 }
 
 
