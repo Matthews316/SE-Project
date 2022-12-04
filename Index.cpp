@@ -13,6 +13,7 @@ void Index::insertOrgs(string w, int d){
 }
 
 
+// New param for occ
 void Index::loadTree(string w, int d, char t, AVLTree<Word> & tree) {
 
     if (t == 'w') {
@@ -78,15 +79,15 @@ void Index::generateFilesOrgs(){
 }
 
 void Index::loadFilesWords(){
-    loadFiles(words);
+    loadFiles(words, "WordFile.txt", 'w');
 }
 
 void Index::loadFilesPersons(){
-    loadFiles(persons);
+    loadFiles(persons, "PeopleFile.txt", 'p');
 }
 
 void Index::loadFilesOrgs(){
-    loadFiles(orgs);
+    loadFiles(orgs, "OrgFile.txt", 'o');
 }
 
 void Index::generateFiles(AVLTree<Word> & tree, char t) {
@@ -116,34 +117,38 @@ void Index::generateFiles(AVLTree<Word> & tree, char t) {
 
 }
 
-void Index::loadFiles(AVLTree<Word> & tree) {
-    ifstream textFile("WordFile.txt");
+void Index::loadFiles(AVLTree<Word> & tree ,string FileName, char type) {
+    ifstream textFile(FileName);
     if (textFile.fail()) {
         throw std::runtime_error("Text File Failed!");
     }
     string word;
-    //string docStr;
-    //string occurrenceStr;
+    string docStr;
+    string occurrenceStr;
     int doc;
     int occurrence;
     unordered_map<int, int> map;
     unordered_set<string> seen;
 
+    int count = 0;
 
     while (textFile.good()) {
+        cout << count++ << endl;
         getline(textFile, word, '\t');
         getline(textFile, docStr, '\t');
         getline(textFile, occurrenceStr);
-        }
+        
+        cout << word;
 
         doc = stoi(docStr);
         occurrence = stoi(occurrenceStr);
         map.insert(make_pair(doc, occurrence));
-    }
+    
 
-    Word wObject(word, map);
-    tree.insert(wObject);
+    loadTree(word, doc, type, tree);
     map.clear();
+    }
+    cout << "Done Inserting" << endl;
 
     textFile.close();
 }
@@ -212,5 +217,10 @@ void Index::loadDocs(string filename){
         Document doc(title, publication, date, text);
         documentMap[id] = doc;
     }
-    
+}
+
+void Index:: clearAllTrees(){
+ words.clear();
+ persons.clear();
+ orgs.clear();
 }

@@ -8,7 +8,7 @@
 #include "AVLTree.h"
 #include "Word.h"
 #include "Index.h"
-#include <bits/stdc++.h>
+#include <sstream>
 
 using namespace std;
 
@@ -16,7 +16,7 @@ class Query {
 
 public:
     Query();
-    void runQuery(string);
+    void runQuery(Index *);
     void performSearch(const string &, AVLTree<Word> &);
     void performAndSearch(const vector<string> &, AVLTree<Word> &);
     void performTwoMixedSearch(const vector<string> &, const vector<string> &, AVLTree<Word> &, AVLTree<Word> &);

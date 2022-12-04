@@ -15,6 +15,8 @@ private:
     std::string makePersistencePath_;
     std::string readPersistencePath_;
     Index* index_;
+    
+
 
 public:
     GUI() {
@@ -33,8 +35,8 @@ public:
 
     void displaymenu();
     void createIndex();
-    void writePersistance();
-    void readPersistance();
+    void writePersistence();
+    void readPersistence();
     void enterQuery();
     void OutputStats();
     void run();

@@ -2,6 +2,8 @@ using namespace std;
 #include <iostream>
 #include <string>
 #include "GUI.h"
+#include "Query.h"
+
 
 
 void GUI::displaymenu(){ 
@@ -9,14 +11,17 @@ void GUI::displaymenu(){
     cout<<"                       Shmoogle                       \n";                  
     cout<<"===================================================== \n";
     cout<<" 1.Create an index from a directory\n";
-    cout<<" 2.Write the index to persistance\n";
-    cout<<" 3.Read the index to persistance\n";
+    cout<<" 2.Write the index to persistence\n";
+    cout<<" 3.Read the index to persistence\n";
     cout<<" 4.Enter a query\n";
-    cout<<" 5.Output Stats \n";
+    cout<<" 5.Output Statisitcs \n";
+    cout<<" 6.Exit \n";
 }
+
 
 void GUI::createIndex()
 {
+    index_->clearAllTrees();
     cout<< "you have selected Create an index from a directory : \n";
 
     DocumentParser parser(index_);
@@ -24,27 +29,35 @@ void GUI::createIndex()
     parser.testFileSystem(documentsPath_);
 }
 
-void GUI::writePersistance()
+void GUI::writePersistence()
 {
-    cout<< "you have selected Write to persistance \n";
+    cout<< "you have selected Write to persistence \n";
     index_->generateFilesWords();
     index_->generateFilesPersons();
     index_->generateFilesOrgs();
-    // index_->generateDocs("Doc.tsv");
+    index_->generateDocs("Doc.tsv");
 }
 
-void GUI::readPersistance()
+void GUI::readPersistence()
 {
-    cout<< "you have selected Read to persistance \n";
+    index_->clearAllTrees();
+    cout<< "you have selected Read to persistence \n";
     index_->loadFilesWords();
+    cout << "Done words" << endl;
     index_->loadFilesPersons();
+    cout << "Done persons" << endl;
     index_->loadFilesOrgs();
-    // index_->loadDocs("Doc.tsv");
+    cout << "Done orgs" << endl;
+    //index_->loadDocs("Docs.tsv");
+    //cout << "Done docs" << endl;
 }
 
 void GUI::enterQuery()
 {
 cout<< "you have selected Enter a query\n";
+Query q;
+cin.ignore();
+q.runQuery(index_);
 }
 
 void GUI::OutputStats()
@@ -60,19 +73,22 @@ void GUI::run(){
     string select;
     do { 
         displaymenu();
-        cout<<"Enter your choice(1-5):";
+        cout<<"Enter your choice(1-6):";
         cin>>choice;
         switch (choice) {
             case 1: createIndex(); break;
-            case 2: writePersistance();break;
-            case 3: readPersistance();break;
+            case 2: writePersistence();break;
+            case 3: readPersistence();break;
             case 4: enterQuery(); break;
             case 5: OutputStats(); break;
-            default: cout << "invalid"; break;
+            case 6: break;
+            default: cout << "invalid" << endl; break;
         }
-        cout << "Press y or Y to continue:";
+        cout << "Press y or Y to continue. Press n or N to exit:";
         cin >> select;
     } while (select == "y" || select == "Y");
+
+    cout << "\nThank you for shmooglin!\n" << endl;
 }
 
 

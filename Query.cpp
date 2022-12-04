@@ -25,12 +25,13 @@ void findIntersection (unordered_map<int, int> & fMap, unordered_map<int, int> &
 
 Query::Query() = default;
 
-void Query::runQuery(string search) {
+void Query::runQuery(Index *i) {
+    cout << "Please enter search term(s): " << endl;
+    string search;
+    getline(cin, search);
     vector<string> wordVec;
     vector<string> personVec;
     vector<string> orgVec;
-    Query q;
-    Index i;
     istringstream ss(search);
     string word;
     while (ss >> word) {
@@ -48,27 +49,27 @@ void Query::runQuery(string search) {
     }
     if (!wordVec.empty() && personVec.empty() && orgVec.empty()) {
         if ((wordVec.size() > 1)) {
-            q.performAndSearch(wordVec, i.getWords());
+            performAndSearch(wordVec, i->getWords());
         }
-        else q.performSearch(wordVec[0], i.getWords());
+        else performSearch(wordVec[0], i->getWords());
     }
     else if (wordVec.empty() && !personVec.empty() && orgVec.empty()) {
-        q.performSearch(personVec[0], i.getPersons());
+        performSearch(personVec[0], i->getPersons());
     }
     else if (wordVec.empty() && personVec.empty() && !orgVec.empty()) {
-        q.performSearch(orgVec[0], i.getOrgs());
+        performSearch(orgVec[0], i->getOrgs());
     }
     else if (!wordVec.empty() && !personVec.empty() && orgVec.empty()) {
-        q.performTwoMixedSearch(wordVec, personVec, i.getWords(), i.getPersons());
+        performTwoMixedSearch(wordVec, personVec, i->getWords(), i->getPersons());
     }
     else if (!wordVec.empty() && personVec.empty() && !orgVec.empty()) {
-        q.performTwoMixedSearch(wordVec, orgVec, i.getWords(), i.getOrgs());
+        performTwoMixedSearch(wordVec, orgVec, i->getWords(), i->getOrgs());
     }
     else if (wordVec.empty() && !personVec.empty() && !orgVec.empty()) {
-        q.performTwoMixedSearch(personVec, orgVec, i.getPersons(), i.getOrgs());
+        performTwoMixedSearch(personVec, orgVec, i->getPersons(), i->getOrgs());
     }
     else if (!wordVec.empty() && !personVec.empty() && !orgVec.empty()) {
-        q.performThreeMixedSearch(wordVec, personVec, orgVec, i.getWords(), i.getPersons(), i.getOrgs());
+        performThreeMixedSearch(wordVec, personVec, orgVec, i->getWords(), i->getPersons(), i->getOrgs());
     }
 }
 
@@ -318,10 +319,3 @@ void Query::displayThreeMixedResults(vector<pair<int, int>> & rVec, const vector
         }
     }
 }
-
-
-
-
-
-
-
