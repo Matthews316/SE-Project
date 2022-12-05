@@ -119,7 +119,6 @@ void DocumentParser::testFileSystem(const string &path)
     for (const auto &entry : it)
     {
       
-        cout << "--- " << setw(60) << left << entry.path().c_str() << " ---" << endl;
         // We only want to attempt to parse files that end with .json...
         if (entry.is_regular_file() && entry.path().extension().string() == ".json")
         {

@@ -22,7 +22,7 @@ void GUI::displaymenu(){
 
 void GUI::createIndex()
 {
-    cout<< "you have selected Create an index from a directory : \n";
+    cout<< "you have selected Create an index from a directory : \n Please Wait...\n";
 
     DocumentParser parser(index_);
     parser.StopWords(stopWordsPath_);
@@ -31,7 +31,7 @@ void GUI::createIndex()
 
 void GUI::writePersistence()
 {
-    cout<< "you have selected Write to persistence \n";
+    cout<< "you have selected Write to persistence \n Please Wait...\n";
     index_->generateFilesWords();
     index_->generateFilesPersons();
     index_->generateFilesOrgs();
@@ -40,8 +40,8 @@ void GUI::writePersistence()
 
 void GUI::readPersistence()
 {
+    cout<< "you have selected Read to persistence \n Please Wait...\n";
     
-    cout<< "you have selected Read to persistence \n";
     index_->loadFilesWords();
     cout << "Done words" << endl;
     index_->loadFilesPersons();
