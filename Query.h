@@ -23,8 +23,6 @@ public:
     void performThreeMixedSearch(const vector<string> &, const vector<string> &, const vector<string> &, AVLTree<Word> &, AVLTree<Word> &, AVLTree<Word> &);
     void displayResults(vector<pair<int, int>> &, const string &);
     void displayANDResults(vector<pair<int, int>> &, const vector<string> &);
-    void displayTwoMixedResults(vector<pair<int, int>> &, const vector<string> &, const vector<string> &);
-    void displayThreeMixedResults(vector<pair<int, int>> &, const vector<string> &, const vector<string> &, const vector<string> &);
 
 private:
 
