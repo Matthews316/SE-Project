@@ -12,81 +12,86 @@ void Index::insertOrgs(string w, int d){
     loadTree(w, d, 'o', orgs);
 }
 
+
+// New param for occ
 void Index::loadTree(string w, int d, char t, AVLTree<Word> & tree) {
 
-    if (t == 'w') {
+    if (t == 'w') { //word tree
         unordered_map<int, int> wMap;
-        // Need to make space to include other features
-        Word tWord(w, wMap);
-        if (!tree.contains(tWord)) {
+        Word tWord(w, wMap); //create word object with search term and map with docs and occurrences
+        if (!tree.contains(tWord)) { //if tree doesn't contain word create a new node and map
             wMap.insert(make_pair(d, 1));
             Word wNode(w, wMap);
             tree.insert(wNode);
         } else {
-            tree.findVal(tWord).insertDoc(d);
+            tree.findVal(tWord).insertDoc(d); //if tree contains word add document if doc doesn't exist or increment
+            //occurrence if doc already exists
         }
     }
-    else if (t == 'p') {
+    else if (t == 'p') { //person tree
         unordered_map<int, int> pMap;
-        Word person(w, pMap);
-        if (!tree.contains(person)) {
+        Word person(w, pMap); //create word object with search term and map with docs and occurrences
+        if (!tree.contains(person)) { //if tree doesn't contain word create a new node and map
             pMap.insert(make_pair(d, 1));
             Word pNode(w,pMap);
             tree.insert(pNode);
         }
         else {
-            tree.findVal(person).insertDoc(d);
+            tree.findVal(person).insertDoc(d); //if tree contains word add document if doc doesn't exist or increment
+            //occurrence if doc already exists
         }
     }
-    else if (t == 'o') {
+    else if (t == 'o') { //org tree
         unordered_map<int, int> oMap;
         Word org(w, oMap);
-        if (!tree.contains(org)) {
-            oMap.insert(make_pair(d, 1));
+        if (!tree.contains(org)) { //if tree doesn't contain word create a new node and map
+            oMap.insert(make_pair(d, 1)); //create word object with search term and map with docs and occurrences
             Word oNode(w,oMap);
             tree.insert(oNode);
         }
         else {
-            tree.findVal(org).insertDoc(d);
+            tree.findVal(org).insertDoc(d); //if tree contains word add document if doc doesn't exist or increment
+            //occurrence if doc already exists
         }
     }
 }
 
+//function for loading persistent data into the trees
 void Index::loadPersistentTree(string w, int d, char t, AVLTree<Word> & tree, int occ) {
 
     if (t == 'w') {
         unordered_map<int, int> wMap;
         Word tWord(w, wMap);
         if (!tree.contains(tWord)) {
-            wMap.insert(make_pair(d, occ));
+            wMap.insert(make_pair(d, occ)); //occurrence used here instead of value of 1
             Word wNode(w, wMap);
             tree.insert(wNode);
         } else {
-            tree.findVal(tWord).insertPersistentDoc(d, occ);
+            tree.findVal(tWord).insertPersistentDoc(d, occ); //occurrence used here instead of value of 1
         }
     }
     else if (t == 'p') {
         unordered_map<int, int> pMap;
         Word person(w, pMap);
         if (!tree.contains(person)) {
-            pMap.insert(make_pair(d, occ));
+            pMap.insert(make_pair(d, occ)); //occurrence used here instead of value of 1
             Word pNode(w,pMap);
             tree.insert(pNode);
         }
         else {
-            tree.findVal(person).insertPersistentDoc(d, occ);
+            tree.findVal(person).insertPersistentDoc(d, occ); //occurrence used here instead of value of 1
         }
     }
     else if (t == 'o') {
         unordered_map<int, int> oMap;
         Word org(w, oMap);
         if (!tree.contains(org)) {
-            oMap.insert(make_pair(d, occ));
+            oMap.insert(make_pair(d, occ)); //occurrence used here instead of value of 1
             Word oNode(w,oMap);
             tree.insert(oNode);
         }
         else {
-            tree.findVal(org).insertPersistentDoc(d, occ);
+            tree.findVal(org).insertPersistentDoc(d, occ); //occurrence used here instead of value of 1
         }
     }
 }
@@ -127,17 +132,18 @@ void Index::loadFilesOrgs(){
     loadFiles(orgs, "OrgFile.tsv", 'o');
 }
 
+//generate tsv files for saving persistent data for all trees
 void Index::generateFiles(AVLTree<Word> & tree, char t) {
-    vector<Word> indexVector;
-    tree.storeTree(indexVector);
+    vector<Word> indexVector; //create vector to store tree nodes
+    tree.storeTree(indexVector);  //populate vector with all tree nodes
     string fileName;
-    if (t == 'w') {
+    if (t == 'w') { //word tree
         fileName = "WordFile.tsv";
     }
-    else if (t == 'p') {
+    else if (t == 'p') { //person tree
         fileName = "PeopleFile.tsv";
     }
-    else if (t == 'o') {
+    else if (t == 'o') { //organization tree
         fileName = "OrgFile.tsv";
     }
     else {
@@ -159,7 +165,7 @@ void Index::generateFiles(AVLTree<Word> & tree, char t) {
 
 
 }
-
+//load trees with persistent data files
 void Index::loadFiles(AVLTree<Word> & tree ,string FileName, char type) {
     ifstream textFile(FileName);
     if (textFile.fail()) {
@@ -188,6 +194,7 @@ void Index::loadFiles(AVLTree<Word> & tree ,string FileName, char type) {
         loadPersistentTree(word, doc, type, tree, occurrence);
         map.clear();
     }
+    cout << "Done Inserting" << endl;
 
     textFile.close();
 }
@@ -216,7 +223,7 @@ void Index::addDocument(int id, Document& doc){
 int Index::numDocuments(){
     return documentMap.size();
 }
-
+//generate document details
 void Index::generateDocs(string filename){
     ofstream outFile(filename);
     if (!outFile)
