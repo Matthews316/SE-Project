@@ -56,7 +56,7 @@ AVLTree &operator=(const AVLTree &rhs)
     clear();
 }
 
-//find value
+//iterative function to find a value in the tree
 bool contains( const Comparable &x) {
     if(root == nullptr){
         return false;
@@ -91,7 +91,7 @@ void printTreeSort(ostream &out = cout) const {
     printTreeSort(root, out);
 }
 
-
+//print out the tree by levels
 void printTreeByLevel(ostream &out = cout) const
 {
     printTreeByLevel(root, out);
@@ -107,18 +107,18 @@ void clear() {
     clear(root);
 }
 
-//insert an item
+//insert an item using iteration
 void insert(const Comparable &x) {
     if (root == nullptr) {
         root = new AVLNode(x, nullptr, nullptr, 0);
         return ; // a single node is always balanced
     }
 
-    stack<AVLNode *> alpha;
+    stack<AVLNode *> alpha;  //create a stack which will used to store nodes for balancing
 
     AVLNode *current = root;
     AVLNode *previous = nullptr;
-    while (current != nullptr) {
+    while (current != nullptr) {  //iterate down the tree until nullptr is reached
         if (x < current->element) {
             previous = current;
             current = current->left;
@@ -127,45 +127,47 @@ void insert(const Comparable &x) {
             previous = current;
             current = current->right;
         }
-        alpha.push(previous);
+        alpha.push(previous); //add alpha value to the stack
     }
 
-    current = new AVLNode(x, nullptr, nullptr, 0);
+    current = new AVLNode(x, nullptr, nullptr, 0);  //create new node
     if (x < previous->element) {
-        previous->left = current;
+        previous->left = current;  //set left pointer if value is less than parent
     }
     else if (x > previous->element) {
-        previous->right = current;
+        previous->right = current;  //set right pointer if value is greater than parent
     }
-    alpha.push(current);
+    alpha.push(current); //push current in the stack for balancing
 
     while (!alpha.empty()) {
-        balance(alpha.top()->left);
-        balance(alpha.top()->right);
-        alpha.top()->height = max(height(alpha.top()->left), height(alpha.top()->right)) + 1;
-        alpha.pop();
+        balance(alpha.top()->left); //balance left node
+        balance(alpha.top()->right); //balance right node
+        alpha.top()->height = max(height(alpha.top()->left), height(alpha.top()->right)) + 1; //update height
+        alpha.pop(); //remove value from the stack
     }
-        balance(root);
+        balance(root); //balance root node
 }
 
+//iterative function to storeValue of tree in vector (in-order traversal)
 void storeTree(vector<Comparable> &v) {
     if(root == nullptr) {
         throw std::runtime_error("Tree is empty!");
     }
-    stack<AVLNode *> s;
+    stack<AVLNode *> s; //create stack to store nodes
     AVLNode *current = root;
-    while(current != nullptr || s.empty() == false) {
-        while (current != nullptr) {
+    while(current != nullptr || s.empty() == false) { //continue until nullptr or stack is empty
+        while (current != nullptr) { //traverse down the left side of the tree
             s.push(current);
             current = current->left;
         }
         current = s.top();
         s.pop();
         v.push_back(current->element);
-        current = current->right;
+        current = current->right; //traverse right side
     }
 }
 
+//check tree balance
 void check_balance() {
     this->check_balance(root);
 }
@@ -174,14 +176,14 @@ void check_balance() {
 void remove(const Comparable &x) {
     remove(x, root);
 }
-
+//find a value and return it
 Comparable & findVal(const Comparable &x) {  //will only be used once contains element confirmed
     if(root == nullptr){
         throw std::runtime_error("Tree is empty!");
     }
 
     AVLNode *current = root;
-    while( current != nullptr ) {
+    while( current != nullptr ) { //traverse the tree until the value is found or nullptr is reached
         if (x < current->element) {
             current = current->left;
         }
@@ -195,6 +197,7 @@ Comparable & findVal(const Comparable &x) {  //will only be used once contains e
     throw std::runtime_error("Value not found!");   // No match
 }
 
+//find minimum value
 Comparable findMinVal() {
     if(root == nullptr){
         throw std::runtime_error("Tree is empty!");
@@ -203,12 +206,12 @@ Comparable findMinVal() {
 }
 
 private:
-
+//recursive function for removing a node
 void remove(const Comparable &x, AVLNode *&t) {
     if (root == nullptr) {
         throw std::runtime_error("Tree is empty!");
     }
-    else if (x == root->element) {
+    else if (x == root->element) { //calls a special function to remove root node
         removeRoot();
         balance(t);
         return;
@@ -220,22 +223,22 @@ void remove(const Comparable &x, AVLNode *&t) {
     }
 
     if (x < t->element) {
-        if (t->left->element == x) {
-            removeNode(t, t->left, true);
+        if (t->left->element == x) { //before moving down the tree check to see if the left element is the value
+            removeNode(t, t->left, true); //pass parent, parent->left, and boolean left value (true)
         }
         else {
-            remove(x, t->left);
+            remove(x, t->left); //move down left side of the tree
         }
     }
     else if (x > t->element) {
-        if (t->right->element == x) {
-            removeNode(t, t->right, false);
+        if (t->right->element == x) { //before moving down the tree check to see if the right element is the value
+            removeNode(t, t->right, false); //pass parent, parent->right, and boolean left value (false)
         }
         else {
-            remove(x, t->right);
+            remove(x, t->right); //move down right side of the tree
         }
     }
-        balance(t);
+        balance(t); //balance occurs after each recursive call
 }
 //remove a root node from the tree
 void removeRoot() {
@@ -271,6 +274,7 @@ void removeRoot() {
     }
 }
 
+//remove non-root node
 void removeNode(AVLNode *p, AVLNode *t, bool left) {
     AVLNode *temp = nullptr;
     AVLNode *small = nullptr;
@@ -278,20 +282,20 @@ void removeNode(AVLNode *p, AVLNode *t, bool left) {
     if (t->left == nullptr && t->right == nullptr ) {
         temp = t;
         if (left) {
-            p->left = nullptr;  //if on the left side of the parent, left pointer should be null
+            p->left = nullptr;  //if node to be removed on the left side of the parent, left parent pointer should be null
         }
         else {
-            p->right = nullptr;  //if on the right side of the parent, right pointer should be null
+            p->right = nullptr;  //if node to be removed on the right side of the parent, right parent pointer should be null
         }
-        delete temp;
+        delete temp; // delete node
     }
     //one child on the right
     else if (t->left == nullptr && t->right != nullptr) {
         temp = t;
         if (left) {
-            p->left = t->right;  //if on the left side of the parent, left parent pointer should point to right child
+            p->left = t->right;  //if node to be removed on the left side of the parent, left parent pointer should point to right child
         } else {
-            p->right = t->right;  //if on the right side of the parent, right parent pointer should point to right child
+            p->right = t->right;  //if node to be removed on the right side of the parent, right parent pointer should point to right child
         }
         delete temp;
     }
@@ -300,24 +304,24 @@ void removeNode(AVLNode *p, AVLNode *t, bool left) {
     else if (t->left != nullptr && t->right == nullptr) {
         temp = t;
         if (left) {
-            p->left = t->left;  //if on the left side of the parent, left parent pointer should point to left child
+            p->left = t->left;  //if node to be removed on the left side of the parent, left parent pointer should point to left child
         } else {
-            p->right = t->left;  //if on the left side of the parent, left parent pointer should point to left child
+            p->right = t->left;  //if node to be removed on the left side of the parent, left parent pointer should point to left child
         }
         delete temp;
     }
 
     //two children
     else {
-        small = findMin(t->right);
-        t->element = small->element;
+        small = findMin(t->right); //find smallest value on the right side
+        t->element = small->element;  //set t equal to smallest value
         if (small->right != nullptr) {  //check to see if small has a child on the right
             AVLNode *child = small->right; //temp equal to right child
             small->element = child->element;  //set small equal to right child
             delete child; //delete right child
         }
         else {
-            delete small;
+            delete small; //delete empty small node
         }
     }
 
@@ -327,6 +331,7 @@ void removeNode(AVLNode *p, AVLNode *t, bool left) {
  * Internal method to find the smallest item in a subtree t.
  * Return node containing the smallest item.
  */
+ //find min value
 AVLNode *findMin(AVLNode *t) {
     if (t == nullptr)
         return nullptr;
@@ -336,7 +341,7 @@ AVLNode *findMin(AVLNode *t) {
 
     return findMin(t->left);
 }
-
+//clear tree
 void clear(AVLNode *&t)
 {
     if (t == nullptr)
@@ -348,6 +353,7 @@ void clear(AVLNode *&t)
     t = nullptr;
 }
 
+//copy tree
 AVLNode *clone(AVLNode *t) const {
     if (t == nullptr) {
         return nullptr;
@@ -355,6 +361,7 @@ AVLNode *clone(AVLNode *t) const {
     return new AVLNode{t->element, clone(t->left), clone(t->right), t->height};
 }
 
+//print and sort tree
 void printTreeSort(AVLNode *t, ostream &out) const {
     if (t == nullptr)
         return;
@@ -364,7 +371,7 @@ void printTreeSort(AVLNode *t, ostream &out) const {
     out << t->element << endl;
     printTreeSort(t->right, out);
 }
-
+//print tree by level
 void printTreeByLevel(AVLNode *t, ostream &out) const {
     if (t == nullptr)
         return;
@@ -404,11 +411,11 @@ void prettyPrintTree(const std::string &prefix, const AVLNode *node, bool isRigh
     prettyPrintTree(prefix + (isRight ? "│   " : "    "), node->right, true);
     prettyPrintTree(prefix + (isRight ? "│   " : "    "), node->left, false);
 }
-
+//calculate height
 int height(AVLNode *t) const {
     return t == nullptr ? -1 : t->height;
 }
-
+//check tree balance
 int check_balance(AVLNode *node) {
     if (node == nullptr) {
         return -1;
@@ -431,7 +438,7 @@ int check_balance(AVLNode *node) {
 }
 
 static const int ALLOWED_IMBALANCE = 1;
-
+//balance function
 void balance(AVLNode *&t) {
     if (t == nullptr)
         return;
