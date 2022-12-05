@@ -56,6 +56,10 @@ AVLTree &operator=(const AVLTree &rhs)
     clear();
 }
 
+int size() {
+    return size(root);
+}
+
 //find value
 bool contains( const Comparable &x) {
     if(root == nullptr){
@@ -203,6 +207,15 @@ Comparable findMinVal() {
 }
 
 private:
+
+int size(AVLNode *t) {
+
+    if (t == nullptr) {
+        return 0;
+    }
+
+    return size(t->left) + size(t->right) + 1;
+}
 
 void remove(const Comparable &x, AVLNode *&t) {
     if (root == nullptr) {

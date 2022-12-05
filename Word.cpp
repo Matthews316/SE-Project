@@ -49,6 +49,10 @@ void Word::insertDoc(int d) {
     }
 }
 
+void Word::insertPersistentDoc(int d, int occ) {
+    docs.insert(make_pair(d, occ));
+}
+
 string Word::getWord() {
     return wordElement;
 }

@@ -22,6 +22,7 @@ public:
     bool operator > (const Word &) const;
     friend ostream & operator << (ostream &out, const Word &);
     void insertDoc(int);
+    void insertPersistentDoc(int, int);
     string getWord();
     unordered_map<int,int> & getDocs();
 

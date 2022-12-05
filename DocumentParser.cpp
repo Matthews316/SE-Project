@@ -1,7 +1,5 @@
 #include "DocumentParser.h"
 
-// TODO: add stemming (Porter library)
-// 
 
 vector<string> DocumentParser::tokenize(string str)
 {
@@ -24,6 +22,7 @@ vector<string> DocumentParser::tokenize(string str)
     return tokens;
 }
 
+// Read file with stop words
 void DocumentParser::StopWords(const string& testRight){   
     ifstream stopInfile(testRight);
 
@@ -48,11 +47,7 @@ void DocumentParser::StopWords(const string& testRight){
 
 }
 
-/**
- * example code that reads and parses a json file and extracts the title and person
- * entities.
- * @param fileName filename with relative or absolute path included.
- */
+// Read in Json
 void DocumentParser::testReadJsonFile(const string &fileName)
 {
     docID++;
@@ -83,17 +78,16 @@ void DocumentParser::testReadJsonFile(const string &fileName)
     index_->addDocument(docID, doc);
 
     vector<string> tokens = tokenize(text);
-
+    
     for (auto token : tokens) {
-        // TODO: insert token into words AVLTree
         index_->insertWord(token, docID);
+        
+    
     }
-
     auto persons = d["entities"]["persons"].GetArray();
     for (auto &p : persons)
     {
         string name = p["name"].GetString();
-        // TODO: add to persons AVLTree
         index_->insertPerson(name, docID);
     }
 
@@ -101,24 +95,18 @@ void DocumentParser::testReadJsonFile(const string &fileName)
     for (auto &o : orgs)
     {
         string name = o["name"].GetString();
-        // TODO: add to orgs AVLTree
         index_->insertOrgs(name, docID);
     
     }
-    // index_->prettyPrintWordTree();
+   
 
     input.close();
 }
 
-/**
- * example code for how to traverse the filesystem using std::filesystem
- * which is new for C++17.
- *
- * @param path an absolute or relative path to a folder containing files
- * you want to parse.
- */
 void DocumentParser::testFileSystem(const string &path)
 {
+    
+    
     docID = 0;
     // recursive_director_iterator used to "access" folder at parameter -path-
     // we are using the recursive iterator so it will go into subfolders.
@@ -126,20 +114,27 @@ void DocumentParser::testFileSystem(const string &path)
     auto it = filesystem::recursive_directory_iterator(path);
 
     // loop over all the entries.
+   
+    int numFiles = 1;
     for (const auto &entry : it)
     {
-
+      
         cout << "--- " << setw(60) << left << entry.path().c_str() << " ---" << endl;
-
         // We only want to attempt to parse files that end with .json...
         if (entry.is_regular_file() && entry.path().extension().string() == ".json")
         {
+            if (numFiles % 1000 == 0) {
+                cout << "Files parsed " << numFiles << endl;
+            }
             testReadJsonFile(entry.path().string());
         }
+       
+    
     }
 
-    // IndexHandler Handler_;
-    // Query Processor(IndexHandler* handler){
-    // Handler_ = &handler;
-    // }
+
+    
+    
+    
+
 }

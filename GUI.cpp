@@ -15,13 +15,13 @@ void GUI::displaymenu(){
     cout<<" 3.Read the index to persistence\n";
     cout<<" 4.Enter a query\n";
     cout<<" 5.Output Statisitcs \n";
-    cout<<" 6.Exit \n";
+    cout<<" 6.Clear Tree \n";
+    cout<<" 7.Exit \n";
 }
 
 
 void GUI::createIndex()
 {
-    index_->clearAllTrees();
     cout<< "you have selected Create an index from a directory : \n";
 
     DocumentParser parser(index_);
@@ -40,7 +40,7 @@ void GUI::writePersistence()
 
 void GUI::readPersistence()
 {
-    index_->clearAllTrees();
+    
     cout<< "you have selected Read to persistence \n";
     index_->loadFilesWords();
     cout << "Done words" << endl;
@@ -48,21 +48,30 @@ void GUI::readPersistence()
     cout << "Done persons" << endl;
     index_->loadFilesOrgs();
     cout << "Done orgs" << endl;
-    //index_->loadDocs("Docs.tsv");
-    //cout << "Done docs" << endl;
+    index_->loadDocs("Doc.tsv");
+     cout << "Done docs" << endl;
 }
 
 void GUI::enterQuery()
 {
-cout<< "you have selected Enter a query\n";
-Query q;
-cin.ignore();
-q.runQuery(index_);
+    cout<< "you have selected Enter a query\n";
+    Query q(index_);
+    cin.ignore();
+    q.runQuery(index_);
 }
 
 void GUI::OutputStats()
 {
-cout<< "you have selected View all statistics\n";
+    cout<< "you have selected View all statistics\n";
+    cout << "Numer of documents " << index_->numDocuments() << endl;
+    cout << "Number of words indexed "  << index_->getWords().size() << endl;
+    cout << "Number of persons indexed "  << index_->getOrgs().size() << endl;
+    cout << "Number of orgs indexed "  << index_->getPersons().size() << endl;
+}
+
+void GUI::ClearTree()
+{
+    index_->clearAllTrees();
 }
 
 void GUI::run(){
@@ -81,35 +90,12 @@ void GUI::run(){
             case 3: readPersistence();break;
             case 4: enterQuery(); break;
             case 5: OutputStats(); break;
-            case 6: break;
+            case 6: ClearTree(); break;
+            case 7: break;
             default: cout << "invalid" << endl; break;
         }
-        cout << "Press y or Y to continue. Press n or N to exit:";
-        cin >> select;
-    } while (select == "y" || select == "Y");
+    } while (choice != 7);
 
     cout << "\nThank you for shmooglin!\n" << endl;
 }
 
-
-
-
-// User Interface
-//  The user interface of the application should provide the following options:
-
-
-
-//  allows the user to create an index from a directory with documents.
-//  allows the user to write the index to a file (make it persistent) and read an index from a file.
-//  allow the user to enter a query (as described above).
-//  The results should display the article’s identifying/important information including Article Title,
-// publication, and date published. If the result set contains more than 15 results, display the 15
-// with the highest relevancy. If less than 15 are returned, display all of them ordered by relevance.
-// If you’d like to show more, please paginate.
-//  The user should be allowed to choose one of the articles from the result set above and have the
-// complete text of the article printed.
-//  Output basic statistics of the search engine including:
-//  Timing for indexing and for queries (use std::chrono).
-//  Total number of individual articles in the current index.
-//  The total number of unique words indexed (total nodes in the word AVL Tree)
-//  Any other interesting stats that you gather in the course of parsing.

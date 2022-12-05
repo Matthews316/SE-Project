@@ -12,8 +12,6 @@ void Index::insertOrgs(string w, int d){
     loadTree(w, d, 'o', orgs);
 }
 
-
-// New param for occ
 void Index::loadTree(string w, int d, char t, AVLTree<Word> & tree) {
 
     if (t == 'w') {
@@ -54,6 +52,45 @@ void Index::loadTree(string w, int d, char t, AVLTree<Word> & tree) {
     }
 }
 
+void Index::loadPersistentTree(string w, int d, char t, AVLTree<Word> & tree, int occ) {
+
+    if (t == 'w') {
+        unordered_map<int, int> wMap;
+        Word tWord(w, wMap);
+        if (!tree.contains(tWord)) {
+            wMap.insert(make_pair(d, occ));
+            Word wNode(w, wMap);
+            tree.insert(wNode);
+        } else {
+            tree.findVal(tWord).insertPersistentDoc(d, occ);
+        }
+    }
+    else if (t == 'p') {
+        unordered_map<int, int> pMap;
+        Word person(w, pMap);
+        if (!tree.contains(person)) {
+            pMap.insert(make_pair(d, occ));
+            Word pNode(w,pMap);
+            tree.insert(pNode);
+        }
+        else {
+            tree.findVal(person).insertPersistentDoc(d, occ);
+        }
+    }
+    else if (t == 'o') {
+        unordered_map<int, int> oMap;
+        Word org(w, oMap);
+        if (!tree.contains(org)) {
+            oMap.insert(make_pair(d, occ));
+            Word oNode(w,oMap);
+            tree.insert(oNode);
+        }
+        else {
+            tree.findVal(org).insertPersistentDoc(d, occ);
+        }
+    }
+}
+
 void Index::prettyPrintWordTree(){
     words.prettyPrintTree();
 }
@@ -79,15 +116,15 @@ void Index::generateFilesOrgs(){
 }
 
 void Index::loadFilesWords(){
-    loadFiles(words, "WordFile.txt", 'w');
+    loadFiles(words, "WordFile.tsv", 'w');
 }
 
 void Index::loadFilesPersons(){
-    loadFiles(persons, "PeopleFile.txt", 'p');
+    loadFiles(persons, "PeopleFile.tsv", 'p');
 }
 
 void Index::loadFilesOrgs(){
-    loadFiles(orgs, "OrgFile.txt", 'o');
+    loadFiles(orgs, "OrgFile.tsv", 'o');
 }
 
 void Index::generateFiles(AVLTree<Word> & tree, char t) {
@@ -111,6 +148,12 @@ void Index::generateFiles(AVLTree<Word> & tree, char t) {
         cout << "File open error!" << endl;
 
     for (size_t i = 0; i < indexVector.size(); ++i) {
+        // Jacob? 
+        if (i == indexVector.size() - 1) {
+            outFile << indexVector[i];
+        } else {
+            outFile << indexVector[i] << endl;
+        }
     }
     outFile.close();
 
@@ -133,22 +176,18 @@ void Index::loadFiles(AVLTree<Word> & tree ,string FileName, char type) {
     int count = 0;
 
     while (textFile.good()) {
-        cout << count++ << endl;
         getline(textFile, word, '\t');
         getline(textFile, docStr, '\t');
         getline(textFile, occurrenceStr);
         
-        cout << word;
-
         doc = stoi(docStr);
         occurrence = stoi(occurrenceStr);
         map.insert(make_pair(doc, occurrence));
     
 
-    loadTree(word, doc, type, tree);
-    map.clear();
+        loadPersistentTree(word, doc, type, tree, occurrence);
+        map.clear();
     }
-    cout << "Done Inserting" << endl;
 
     textFile.close();
 }
@@ -183,12 +222,18 @@ void Index::generateDocs(string filename){
     if (!outFile)
         cout << "File open error!" << endl;
 
+    int counter = 0;
     for (auto p : documentMap) {
-        cout << p.first << "\t";
-        cout << p.second.getTitle() << "\t";
-        cout << p.second.getPublication() << "\t";
-        cout << p.second.getDate() << "\t";
-        cout << p.second.getText() << endl;
+        outFile << p.first << "\t";
+        outFile << p.second.getText() << "\t";
+        outFile << p.second.getTitle() << "\t";
+        outFile << p.second.getPublication() << "\t";
+        if (counter == documentMap.size() - 1) {
+            outFile << p.second.getDate();
+        } else {
+            outFile << p.second.getDate()  << endl;
+        }
+        counter++;
     }
     
 }
@@ -208,10 +253,10 @@ void Index::loadDocs(string filename){
 
     while (textFile.good()) {
         getline(textFile, idStr, '\t');
+        getline(textFile, text, '\t');
         getline(textFile, title, '\t');
         getline(textFile, publication, '\t');
-        getline(textFile, date, '\t');
-        getline(textFile, text);
+        getline(textFile, date);
 
         int id = stoi(idStr);
         Document doc(title, publication, date, text);
@@ -223,4 +268,5 @@ void Index:: clearAllTrees(){
  words.clear();
  persons.clear();
  orgs.clear();
+ documentMap.clear();
 }

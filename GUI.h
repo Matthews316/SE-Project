@@ -39,6 +39,7 @@ public:
     void readPersistence();
     void enterQuery();
     void OutputStats();
+    void ClearTree();
     void run();
 };
 
