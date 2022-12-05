@@ -9,7 +9,7 @@ bool sortVal (const pair<int, int> &lhs, const pair<int, int> &rhs) {
     return (lhs.second > rhs.second);
 }
 
-//function for finding the intersection of documents between search terms
+//function for finding the intersection of documents between search terms; code sourced from stack overflow
 void findIntersection (unordered_map<int, int> & fMap, unordered_map<int, int> & sMap, unordered_map<int, int> & jMap) {
     jMap.clear();
     const auto &[min, max]  = minmax(fMap, sMap, [](auto &a, auto &b) { return a.size() < b.size(); });
@@ -87,7 +87,7 @@ void Query::performSearch(const string & term, AVLTree<Word> & tree) {
         displayResults(resultVector, term);
     }
     else
-        cout << "Search keyword " << "'" <<term << "'" << " not found" << endl;
+        cout << "Search keyword " << "'" << term << "'" << " not found" << endl;
 }
 
 void Query::performAndSearch(const vector<string> & termVec, AVLTree<Word> & tree) {
@@ -158,7 +158,11 @@ void Query::performTwoMixedSearch(const vector<string> & fVec, const vector<stri
             resultVector.emplace_back(itr->first, itr->second);
             itr++;
         }
-        displayTwoMixedResults(resultVector, fVec, sVec);
+    vector<string> terms;
+    terms.reserve(fVec.size() + sVec.size());
+    terms.insert(terms.end(), fVec.begin(), fVec.end());
+    terms.insert(terms.end(), sVec.begin(), sVec.end());
+    displayANDResults(resultVector, terms);
 }
 
 
@@ -210,12 +214,17 @@ void Query::performThreeMixedSearch(const vector<string> & fVec, const vector<st
         resultVector.emplace_back(itr->first, itr->second);
         itr++;
     }
-    displayThreeMixedResults(resultVector, fVec, sVec, tVec);
+    vector<string> terms;
+    terms.reserve(fVec.size() + sVec.size() + tVec.size());
+    terms.insert(terms.end(), fVec.begin(), fVec.end());
+    terms.insert(terms.end(), sVec.begin(), sVec.end());
+    terms.insert(terms.end(), tVec.begin(), tVec.end());
+    displayANDResults(resultVector, terms);
 }
 
 void Query::displayResults(vector<pair<int, int>> & rVec, const string & t) {
     sort(rVec.begin(), rVec.end(), sortVal);
-    cout << "Found " << rVec.size() << " documents containing search term " << "'" << t << "'" << endl;
+    cout << "Found " << rVec.size() << " document(s) containing search term " << "'" << t << "'" << endl;
     if (rVec.empty()) {
         return;
     }
@@ -234,69 +243,6 @@ void Query::displayResults(vector<pair<int, int>> & rVec, const string & t) {
 void Query::displayANDResults(vector<pair<int, int>> & rVec, const vector<string> & tVec) {
     sort(rVec.begin(), rVec.end(), sortVal);
     cout << "Found " << rVec.size() << " document(s) containing search terms ";
-    for (size_t i = 0; i < tVec.size(); ++i) {
-        if (i < tVec.size() - 1) {
-            cout << "'" << tVec[i] << "'" << " + ";
-        }
-        else {
-            cout << "'" << tVec[i] << "'" << endl;
-        }
-    }
-    if (rVec.empty()) {
-        return;
-    }
-    else {
-        cout << endl;
-        cout << "Top 15 search results by relevancy:" << endl;
-        for (size_t i = 0; i < 15; ++i) {
-            if (i == rVec.size()) {
-                break;
-            }
-            cout << rVec[i].first << " " << rVec[i].second << endl;
-        }
-    }
-}
-
-
-
-void Query::displayTwoMixedResults(vector<pair<int, int>> & rVec, const vector<string> & fVec, const vector<string> & sVec) {
-    sort(rVec.begin(), rVec.end(), sortVal);
-    cout << "Found " << rVec.size() << " document(s) containing search terms ";
-    for (size_t i = 0; i < fVec.size(); ++i) {
-            cout << "'" << fVec[i] << "'" << " + ";
-    }
-    for (size_t i = 0; i < sVec.size(); ++i) {
-        if (i < sVec.size() - 1) {
-            cout << "'" << sVec[i] << "'" << " + ";
-        }
-        else {
-            cout << "'" << sVec[i] << "'" << endl;
-        }
-    }
-    if (rVec.empty()) {
-        return;
-    }
-    else {
-        cout << endl;
-        cout << "Top 15 search results by relevancy:" << endl;
-        for (size_t i = 0; i < 15; ++i) {
-            if (i == rVec.size()) {
-                break;
-            }
-            cout << rVec[i].first << " " << rVec[i].second << endl;
-        }
-    }
-}
-
-void Query::displayThreeMixedResults(vector<pair<int, int>> & rVec, const vector<string> & fVec, const vector<string> & sVec, const vector<string> & tVec) {
-    sort(rVec.begin(), rVec.end(), sortVal);
-    cout << "Found " << rVec.size() << " document(s) containing search terms ";
-    for (size_t i = 0; i < fVec.size(); ++i) {
-        cout << "'" << fVec[i] << "'" << " + ";
-    }
-    for (size_t i = 0; i < sVec.size(); ++i) {
-            cout << "'" << sVec[i] << "'" << " + ";
-    }
     for (size_t i = 0; i < tVec.size(); ++i) {
         if (i < tVec.size() - 1) {
             cout << "'" << tVec[i] << "'" << " + ";

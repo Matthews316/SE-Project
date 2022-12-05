@@ -12,8 +12,6 @@ void Index::insertOrgs(string w, int d){
     loadTree(w, d, 'o', orgs);
 }
 
-
-// New param for occ
 void Index::loadTree(string w, int d, char t, AVLTree<Word> & tree) {
 
     if (t == 'w') {
@@ -50,6 +48,45 @@ void Index::loadTree(string w, int d, char t, AVLTree<Word> & tree) {
         }
         else {
             tree.findVal(org).insertDoc(d);
+        }
+    }
+}
+
+void Index::loadPersistentTree(string w, int d, char t, AVLTree<Word> & tree, int occ) {
+
+    if (t == 'w') {
+        unordered_map<int, int> wMap;
+        Word tWord(w, wMap);
+        if (!tree.contains(tWord)) {
+            wMap.insert(make_pair(d, occ));
+            Word wNode(w, wMap);
+            tree.insert(wNode);
+        } else {
+            tree.findVal(tWord).insertPersistentDoc(d, occ);
+        }
+    }
+    else if (t == 'p') {
+        unordered_map<int, int> pMap;
+        Word person(w, pMap);
+        if (!tree.contains(person)) {
+            pMap.insert(make_pair(d, occ));
+            Word pNode(w,pMap);
+            tree.insert(pNode);
+        }
+        else {
+            tree.findVal(person).insertPersistentDoc(d, occ);
+        }
+    }
+    else if (t == 'o') {
+        unordered_map<int, int> oMap;
+        Word org(w, oMap);
+        if (!tree.contains(org)) {
+            oMap.insert(make_pair(d, occ));
+            Word oNode(w,oMap);
+            tree.insert(oNode);
+        }
+        else {
+            tree.findVal(org).insertPersistentDoc(d, occ);
         }
     }
 }
@@ -145,7 +182,7 @@ void Index::loadFiles(AVLTree<Word> & tree ,string FileName, char type) {
         map.insert(make_pair(doc, occurrence));
     
 
-    loadTree(word, doc, type, tree);
+    loadPersistentTree(word, doc, type, tree, occurrence);
     map.clear();
     }
     cout << "Done Inserting" << endl;

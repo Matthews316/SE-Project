@@ -17,6 +17,7 @@ public:
     void insertPerson(string w, int d);
     void insertOrgs(string w, int d);
     void loadTree(string w, int d, char t, AVLTree<Word>&);
+    void loadPersistentTree(string w, int d, char t, AVLTree<Word> & tree, int);
     void generateFiles(AVLTree<Word> &, char);
     
     void prettyPrintWordTree();
