@@ -154,7 +154,7 @@ void Index::generateFiles(AVLTree<Word> & tree, char t) {
         cout << "File open error!" << endl;
 
     for (size_t i = 0; i < indexVector.size(); ++i) {
-        // Jacob? 
+        // TA 
         if (i == indexVector.size() - 1) {
             outFile << indexVector[i];
         } else {
